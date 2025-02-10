@@ -25,8 +25,6 @@ app.post('/login1', (req, res) => {
 
 // -------------------- LOGIN 2: CLIENT-SIDE CODE HACK --------------------
 app.get('/login2', (req, res) => {
-    const password = process.env.LEVEL2_PASSWORD;
-
     res.send(`
     <!DOCTYPE html>
     <html lang="en">
@@ -39,7 +37,7 @@ app.get('/login2', (req, res) => {
 
     <body>
         <h1>Welcome to Level 2</h1>
-        <p>Congratulations on making it this far! But now, the real fun begins. 😉</p>
+        <p>Did you think it would be that easy? HAHAHAHAHA, now the real fun begins! 😉</p>
 
         <form action="/login2" method="POST">
             <label>Username: </label><input type="text" name="username" required><br>
@@ -47,18 +45,40 @@ app.get('/login2', (req, res) => {
             <input type="submit" value="Login">
         </form>
 
-        <p><i>Hint: Real hackers inspect client-side code. Remember, Inspect Element is not the only tool to play around with client-side FUNCTIONS.</i></p>
+        <p><i>Hint: Real hackers inspect client-side code. Remember, executing functions in the console is key here.</i></p>
 
-        <!-- Inline JavaScript that reveals the password using the environment variable -->
         <script>
             function revealPassword() {
-                console.log("Hint: The password is: " + "${password}");
+                fetch('/get-password')
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log("Hint: The password is: " + data.password);
+                    })
+                    .catch(err => {
+                        console.error("Error fetching the password:", err);
+                    });
             }
         </script>
     </body>
 
     </html>
     `);
+});
+
+app.get('/get-password', (req, res) => {
+    const password = process.env.LEVEL2_PASSWORD;
+    res.json({ password });
+});
+
+app.post('/login2', (req, res) => {
+    const { username, password } = req.body;
+    const correctPassword = process.env.LEVEL2_PASSWORD;
+
+    if (username === 'admin' && password === correctPassword) {
+        res.redirect('/upload');
+    } else {
+        res.send(`<p>Wrong username or password. Try again!</p><a href="/login2">Go back</a>`);
+    }
 });
 
 app.post('/login2', (req, res) => {
@@ -73,7 +93,6 @@ app.post('/login2', (req, res) => {
 });
 
 // -------------------- FINAL CHALLENGE: FILE UPLOAD VULNERABILITY --------------------
-// -------------------- FINAL CHALLENGE: FAKE FILE UPLOAD WITH PHP CODE VALIDATION --------------------
 app.get('/upload', (req, res) => {
     res.send(`
     <!DOCTYPE html>
