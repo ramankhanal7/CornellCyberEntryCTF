@@ -45,7 +45,7 @@ app.get('/login2', (req, res) => {
             <input type="submit" value="Login">
         </form>
 
-        <p><i>Hint: Real hackers inspect client-side code. Remember, executing functions in the console is key here.</i></p>
+        <p><i>Hint: Real hackers inspect client-side code. Maybe the function below has the answer?</i></p>
 
         <script>
             function revealPassword() {
@@ -106,7 +106,7 @@ app.get('/upload', (req, res) => {
 
     <body>
         <h1>Final Challenge: Craft Your PHP File</h1>
-        <p>To get the flag, craft a valid PHP script that echoes the hidden variable.</p>
+        <p>To get the flag, craft a valid PHP script that reveals the password for you.</p>
         <p><strong>Hint:</strong> The PHP code must start and end correctly. It should also have a specific line since there is really just one way to solve this.</p>
 
         <form action="/upload" method="POST">
@@ -122,10 +122,7 @@ app.get('/upload', (req, res) => {
 
 app.post('/upload', (req, res) => {
     const phpCode = req.body.phpCode.trim();
-
-    // Basic validation: Check if the code starts with <?php and ends with ?>
     if (phpCode.startsWith('<?php') && phpCode.endsWith('?>')) {
-        // Check if the code contains "echo $FLAG;"
         if (phpCode.includes('echo $FLAG;')) {
             return res.send(`
                 <p>Flag revealed: ${FLAG}</p>
@@ -133,7 +130,7 @@ app.post('/upload', (req, res) => {
             `);
         } else {
             return res.send(`
-                <p>Your PHP script is valid, but it didn't echo the flag correctly.</p>
+                <p>Your PHP script is valid, but it didn't access and reveal the flag correctly.</p>
                 <a href="/upload">Try again</a>
             `);
         }
