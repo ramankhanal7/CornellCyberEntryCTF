@@ -1,8 +1,11 @@
 # Cornell Cyber Web Exploitation CTF Officer Writeup
 
+## **CTF Challenge and Writeup Author/Creator**
+Raman Khanal - Cornell '27
+
 ## **Introduction**
 
-This writeup explains how each level should be solved and highlights the security vulnerabilities present in the Cornell Cybersecurity Club 2025 Spring Web Exploitation CTF challenge.
+This writeup explains how each level should be solved and highlights the security vulnerabilities present in the Cornell Cybersecurity Club 2025 Spring Web Exploitation CTF challenge developed by me to test the basic CTF and cybersecurity skills of our new applicants.
 
 Link: `https://cornellcyberentryctf.onrender.com/`
 
